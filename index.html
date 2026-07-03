@@ -25,9 +25,29 @@
 .notice{background:var(--ratp-soft);border:1px solid #b9dfd1;color:#075b3e;border-radius:16px;padding:14px 16px;margin-bottom:18px;line-height:1.45}
 @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.hero h2{font-size:34px}.topline{align-items:flex-start;flex-direction:column}}
 @media(max-width:620px){.grid{grid-template-columns:1fr}.header{padding:26px 18px 38px}.wrap{padding:0 14px}.brand h1{font-size:24px}.hero h2{font-size:29px}.panel{padding:18px}.badge{font-size:13px}}
+
+#loginOverlay{position:fixed;inset:0;background:linear-gradient(135deg,#00875a,#005f42);display:flex;align-items:center;justify-content:center;z-index:99999}
+.login-box{background:#fff;padding:40px;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.3);width:360px;max-width:90%;text-align:center}
+.login-box input{width:100%;padding:12px;margin:15px 0;border:1px solid #ccc;border-radius:10px;font-size:16px}
+.login-box button{width:100%;padding:12px;background:#00875a;color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer}
+#loginError{color:#c00;margin-top:12px;font-weight:bold;min-height:20px}
+.login-logo{font-size:42px}
+
 </style>
 </head>
 <body>
+
+<div id="loginOverlay">
+  <div class="login-box">
+    <div class="login-logo">🔒</div>
+    <h2>Accès sécurisé</h2>
+    <p>Veuillez saisir le mot de passe pour accéder au portail.</p>
+    <input type="password" id="passwordInput" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')checkPassword()">
+    <button onclick="checkPassword()">Se connecter</button>
+    <div id="loginError"></div>
+  </div>
+</div>
+
 <header class="header">
 <div class="topline">
 <div class="brand"><div class="logo">OR</div><div><h1>Outils RDCN</h1><p>Plateforme métier RATP Dev Caen Normandie</p></div></div>
@@ -52,5 +72,19 @@
 </section>
 </main>
 <footer class="footer">Outils RDCN — Plateforme interne de travail — SharePoint / Microsoft 365</footer>
+
+<script>
+function checkPassword(){
+ const p=document.getElementById('passwordInput').value;
+ if(p==='RDCN_VENUS'){
+   document.getElementById('loginOverlay').style.display='none';
+ }else{
+   document.getElementById('loginError').textContent='Mot de passe incorrect';
+   document.getElementById('passwordInput').value='';
+   document.getElementById('passwordInput').focus();
+ }
+}
+</script>
+
 </body>
 </html>
