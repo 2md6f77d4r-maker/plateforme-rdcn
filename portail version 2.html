@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="fr">
@@ -8,6 +9,8 @@
 <style>
 :root{
   --ratp:#00875a; --ratp-dark:#005f42; --ratp-soft:#e8f6f1;
+  --mint:#00b8a9; --mint-soft:#dff8f4;
+  --blue:#000f9f; --raspberry:#d72864; --raspberry-dark:#b8174e;
   --ink:#16211f; --muted:#5d6b67; --line:#d9e3df; --bg:#f5f8f7; --card:#ffffff;
   --shadow:0 18px 40px rgba(0,0,0,.10); --radius:22px;
 }
@@ -264,6 +267,303 @@
 .countdown-unit{font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.85;margin-top:8px;font-weight:800}
 @media(max-width:820px){.info-widgets{grid-template-columns:1fr}.countdown-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.info-widget{padding:14px}.info-value{font-size:20px}.countdown-number{font-size:30px}.countdown-title{font-size:20px}}
+
+
+
+/* Proposition charte RATP Dev sobre : vert RATP dominant, beta rose uniquement */
+body{
+  background:
+    radial-gradient(circle at 18% 0%, rgba(0,135,90,.08), transparent 34%),
+    linear-gradient(180deg,#f7fbfa 0%,#f2f7f5 100%);
+}
+.header{
+  background:
+    linear-gradient(135deg,#00875a 0%,#006b4a 58%,#004b36 100%);
+}
+.header:after{
+  background:rgba(255,255,255,.10);
+}
+.logo{
+  color:#00875a;
+  border:1px solid rgba(0,135,90,.18);
+}
+.badge{
+  background:rgba(255,255,255,.16);
+  border-color:rgba(255,255,255,.34);
+}
+.panel,.news,.help{
+  background:#ffffff;
+  border-color:#dbe7e3;
+}
+.section-title h3{
+  color:#006b4a;
+}
+.section-title h3:after{
+  content:"";
+  display:block;
+  width:58px;
+  height:3px;
+  margin-top:8px;
+  border-radius:99px;
+  background:#00875a;
+}
+.card{
+  background:linear-gradient(180deg,#ffffff,#fbfdfc);
+  border-color:#dce7e3;
+}
+.card:hover{
+  border-color:#00875a;
+  box-shadow:0 16px 32px rgba(0,95,66,.13);
+}
+.ico,.info-icon{
+  background:#e8f6f1;
+  color:#005f42;
+}
+.btn{
+  background:linear-gradient(135deg,#00875a,#006b4a);
+  box-shadow:0 10px 22px rgba(0,135,90,.18);
+}
+.btn:hover{filter:brightness(1.04)}
+.status{color:#007a52}
+.dot{background:#00a878}
+.countdown-section{
+  background:
+    radial-gradient(circle at 18% 18%,rgba(255,255,255,.30),transparent 30%),
+    linear-gradient(135deg,#004b36,#00875a 65%,#00a878);
+}
+.info-widget:not(.station-time){
+  background:rgba(255,255,255,.16);
+  border-color:rgba(255,255,255,.30);
+}
+.info-widget.station-time{
+  background:
+    linear-gradient(135deg,rgba(0,75,54,.98),rgba(0,95,66,.94));
+}
+.info-widget.station-time:before{
+  background:linear-gradient(90deg,#e8f6f1,#00b8a9,#e8f6f1);
+}
+.station-time-display{
+  color:#eafff7;
+  border-color:rgba(0,184,169,.45);
+  text-shadow:0 0 10px rgba(0,184,169,.38);
+}
+.station-time .info-label{color:#bff7e0}
+.station-time .info-sub{color:#d8fff0}
+#loginOverlay{
+  background:linear-gradient(135deg,#00875a,#005f42);
+}
+.login-box button{
+  background:linear-gradient(135deg,#00875a,#005f42);
+}
+.notice{
+  background:#e8f6f1;
+  border-color:#b9dfd1;
+  color:#075b3e;
+}
+
+/* Beta : on conserve volontairement le rouge/rose RATP Dev */
+.status.beta{color:#d72864}
+.status.beta .dot{
+  background:#d72864;
+  animation:betaBlink 1s infinite;
+  box-shadow:0 0 0 rgba(215,40,100,.9);
+}
+.card.beta-card{
+  border-color:#f4b0c8;
+  background:
+    radial-gradient(circle at 85% 8%, rgba(215,40,100,.16), transparent 34%),
+    linear-gradient(180deg,#ffffff,#fff7fa);
+  box-shadow:0 14px 30px rgba(215,40,100,.10);
+}
+.card.beta-card:before{
+  background:linear-gradient(135deg, rgba(215,40,100,.14), transparent 42%, rgba(215,40,100,.10));
+}
+.card.beta-card:after{
+  background:rgba(215,40,100,.12);
+}
+.card.beta-card:hover{
+  border-color:#d72864;
+  box-shadow:0 22px 46px rgba(215,40,100,.18);
+}
+.card.beta-card:hover:after{background:rgba(215,40,100,.18)}
+.status.beta.beta-chip{
+  color:#ffffff !important;
+  background:linear-gradient(135deg,#b8174e,#d72864 60%,#ef5b8a);
+  box-shadow:0 10px 22px rgba(215,40,100,.28), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.status.beta.beta-chip .dot{
+  background:#ffd6e4;
+  box-shadow:0 0 12px rgba(255,214,228,.9);
+}
+.card.beta-card .btn{
+  background:linear-gradient(135deg,#b8174e,#d72864);
+  box-shadow:0 10px 22px rgba(215,40,100,.22);
+}
+
+
+
+/* CORRECTION FINALE : Mint RATP Dev dominant, aucun rose hors version BETA */
+:root{
+  --ratp:#00875a;
+  --ratp-dark:#005f42;
+  --mint:#64cdbc;
+  --mint-2:#39bdae;
+  --mint-3:#0f9b8e;
+  --mint-soft:#e7f8f5;
+  --blue:#000f9f;
+  --raspberry:#d72864;
+  --raspberry-dark:#b8174e;
+  --ink:#071b18;
+  --muted:#66736f;
+  --line:#d6e7e2;
+  --bg:#f3faf8;
+}
+body{
+  background:
+    radial-gradient(circle at 8% 2%, rgba(100,205,188,.22), transparent 26%),
+    radial-gradient(circle at 92% 30%, rgba(0,135,90,.10), transparent 26%),
+    linear-gradient(180deg,#f7fcfb 0%,#eef8f5 100%) !important;
+  color:var(--ink);
+}
+.header{
+  background:
+    linear-gradient(125deg, rgba(100,205,188,.96) 0%, rgba(57,189,174,.98) 46%, rgba(0,135,90,.98) 100%) !important;
+  color:#000f9f;
+  padding:34px 28px 44px;
+  border-bottom:5px solid rgba(255,255,255,.88);
+}
+.header:before{
+  content:"";
+  position:absolute;
+  inset:22px;
+  border:3px solid rgba(255,255,255,.88);
+  pointer-events:none;
+  z-index:0;
+}
+.header:after{
+  content:"";
+  position:absolute;
+  right:-95px;
+  top:-120px;
+  width:410px;
+  height:410px;
+  border-radius:50%;
+  background:rgba(255,255,255,.20) !important;
+  box-shadow:-90px 145px 0 rgba(255,255,255,.12);
+}
+.header .topline,
+.header .hero,
+.header .info-widgets{position:relative;z-index:1}
+.brand h1,
+.hero h2{color:#000f9f;text-shadow:none}
+.brand p,
+.hero p{color:rgba(0,15,159,.78);opacity:1}
+.logo{
+  background:#ffffff;
+  color:#000f9f;
+  border:1px solid rgba(0,15,159,.12);
+  box-shadow:0 12px 26px rgba(0,15,159,.10);
+}
+.badge{
+  background:#000f9f !important;
+  border:1px solid rgba(255,255,255,.70) !important;
+  color:#ffffff;
+  box-shadow:0 12px 24px rgba(0,15,159,.20);
+}
+.wrap{margin-top:-18px}
+.panel,.news,.help{
+  border-top:5px solid var(--mint-2);
+  border-color:#cfe5df !important;
+  box-shadow:0 18px 44px rgba(0,95,66,.12);
+}
+.section-title h3{color:#000f9f !important}
+.section-title h3:after{background:var(--mint-2) !important}
+.card{
+  background:linear-gradient(180deg,#ffffff 0%,#fbfffe 100%) !important;
+  border-color:#cfe5df !important;
+  box-shadow:none;
+}
+.card:hover{
+  border-color:var(--mint-2) !important;
+  box-shadow:0 18px 34px rgba(0,135,90,.13) !important;
+}
+.ico,.info-icon{
+  background:linear-gradient(135deg,#dff7f3,#c9f0ea) !important;
+  color:#005f42 !important;
+}
+.card h4{color:#11194f}
+.card p,.meta,.section-title span{color:#6d7585}
+.btn{
+  background:linear-gradient(135deg,#00875a,#006b4a) !important;
+  color:#fff;
+  box-shadow:0 10px 22px rgba(0,135,90,.20) !important;
+}
+.btn:hover{filter:brightness(1.05)}
+.status:not(.beta){color:#007a52 !important}
+.status:not(.beta) .dot{background:#00a878 !important}
+.info-widget:not(.station-time){
+  background:rgba(255,255,255,.86) !important;
+  border:1px solid rgba(255,255,255,.95) !important;
+  color:#000f9f;
+  box-shadow:0 14px 30px rgba(0,95,66,.10);
+}
+.info-label{color:#007a72;opacity:1}
+.info-value{color:#000f9f}
+.info-sub{color:#50645f;opacity:1}
+.info-widget.station-time{
+  background:
+    linear-gradient(135deg,#000f4f 0%,#000f9f 58%,#005f42 100%) !important;
+  border:1px solid rgba(255,255,255,.76) !important;
+  box-shadow:0 18px 38px rgba(0,15,159,.24), inset 0 1px 0 rgba(255,255,255,.22) !important;
+}
+.info-widget.station-time:before{background:linear-gradient(90deg,#ffffff,#64cdbc,#ffffff) !important}
+.station-clock-icon{border-color:#000f9f}
+.station-time-display{
+  background:#050b35 !important;
+  border-color:rgba(100,205,188,.65) !important;
+  color:#ffffff !important;
+  text-shadow:0 0 10px rgba(100,205,188,.50) !important;
+}
+.station-time .info-label{color:#bff7e0 !important}
+.station-time .info-sub{color:#dff8f4 !important}
+.countdown-section{
+  background:
+    radial-gradient(circle at 18% 18%,rgba(255,255,255,.34),transparent 30%),
+    linear-gradient(135deg,#005f42 0%,#00875a 52%,#64cdbc 100%) !important;
+  border-color:rgba(255,255,255,.74) !important;
+}
+#loginOverlay{background:linear-gradient(135deg,#64cdbc,#00875a,#005f42) !important}
+.login-box button{background:linear-gradient(135deg,#00875a,#005f42) !important}
+.footer{color:#526861}
+/* La version BETA reste volontairement en Raspberry, seule zone rose du portail */
+.card.beta-card{
+  border-color:#f1a5c1 !important;
+  background:
+    radial-gradient(circle at 86% 10%, rgba(215,40,100,.18), transparent 34%),
+    linear-gradient(180deg,#ffffff 0%,#fff6fa 100%) !important;
+  box-shadow:0 14px 30px rgba(215,40,100,.11) !important;
+}
+.card.beta-card:before{
+  background:linear-gradient(135deg,rgba(215,40,100,.14),transparent 42%,rgba(215,40,100,.10)) !important;
+}
+.card.beta-card:after{background:rgba(215,40,100,.12) !important}
+.card.beta-card:hover{
+  border-color:#d72864 !important;
+  box-shadow:0 22px 46px rgba(215,40,100,.18) !important;
+}
+.status.beta,.status.beta.beta-chip{color:#d72864}
+.status.beta .dot{background:#d72864 !important;box-shadow:0 0 0 rgba(215,40,100,.9) !important}
+.status.beta.beta-chip{
+  color:#fff !important;
+  background:linear-gradient(135deg,#b8174e,#d72864 60%,#ef5b8a) !important;
+  border-color:rgba(255,255,255,.65) !important;
+  box-shadow:0 10px 22px rgba(215,40,100,.28), inset 0 1px 0 rgba(255,255,255,.35) !important;
+}
+.status.beta.beta-chip .dot{background:#ffd6e4 !important}
+.card.beta-card .btn{
+  background:linear-gradient(135deg,#b8174e,#d72864) !important;
+  box-shadow:0 10px 22px rgba(215,40,100,.22) !important;
+}
 
 </style>
 </head>
