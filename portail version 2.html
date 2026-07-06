@@ -104,6 +104,94 @@
 #loginError{color:#c00;margin-top:12px;font-weight:bold;min-height:20px}
 .login-logo{font-size:42px}
 
+
+/* Horloge type affichage en gare */
+.info-widget.station-time{
+  position:relative;
+  overflow:hidden;
+  align-items:center;
+  background:
+    linear-gradient(135deg,rgba(10,18,16,.96),rgba(28,38,35,.90)),
+    rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.38);
+  box-shadow:0 18px 38px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.info-widget.station-time:before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:5px;
+  background:linear-gradient(90deg,#e9fff7,#7ee8c3,#e9fff7);
+  opacity:.86;
+}
+.info-widget.station-time:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0,rgba(255,255,255,.035) 1px,transparent 1px,transparent 8px);
+  pointer-events:none;
+}
+.station-clock-icon{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  position:relative;
+  flex:0 0 58px;
+  background:radial-gradient(circle,#ffffff 0 58%,#e7efeb 59% 100%);
+  border:4px solid #15201d;
+  box-shadow:0 0 0 3px rgba(255,255,255,.25),0 12px 24px rgba(0,0,0,.22);
+}
+.station-clock-icon:before{
+  content:"";
+  position:absolute;
+  inset:6px;
+  border-radius:50%;
+  border:1px solid rgba(0,0,0,.14);
+}
+.clock-hand{
+  position:absolute;
+  left:50%;
+  bottom:50%;
+  transform-origin:50% 100%;
+  transform:translateX(-50%) rotate(0deg);
+  border-radius:999px;
+  background:#17201d;
+}
+.clock-hour{width:5px;height:17px;}
+.clock-minute{width:4px;height:23px;}
+.clock-second{width:2px;height:24px;background:#d21f2b;}
+.clock-center{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#d21f2b;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 0 2px #fff;
+}
+.station-time-display{
+  font-family:"Courier New",Consolas,monospace;
+  font-size:34px;
+  line-height:1;
+  letter-spacing:.08em;
+  color:#eafff7;
+  text-shadow:0 0 10px rgba(126,232,195,.45);
+  padding:9px 12px;
+  margin-top:5px;
+  width:max-content;
+  border-radius:10px;
+  background:#080f0d;
+  border:1px solid rgba(126,232,195,.42);
+  box-shadow:inset 0 0 18px rgba(126,232,195,.10),0 8px 20px rgba(0,0,0,.22);
+}
+.station-time .info-label{color:#bff7e0;opacity:1;}
+.station-time .info-sub{color:#d8fff0;opacity:.86;}
+@media(max-width:620px){.station-time-display{font-size:26px}.station-clock-icon{width:52px;height:52px;flex-basis:52px}.clock-hour{height:15px}.clock-minute{height:20px}.clock-second{height:21px}}
+
 /* Widgets haut de page : heure, date, météo Caen */
 .info-widgets{
   max-width:1180px;
@@ -199,11 +287,16 @@
 </div>
 <div class="hero"><h2>Suite d'applications internes</h2><p>Accès centralisé aux outils </p></div>
 <div class="info-widgets" aria-label="Informations du jour">
-  <div class="info-widget">
-    <div class="info-icon">🕒</div>
+  <div class="info-widget station-time">
+    <div class="station-clock-icon" aria-hidden="true">
+      <span class="clock-hand clock-hour" id="clockHourHand"></span>
+      <span class="clock-hand clock-minute" id="clockMinuteHand"></span>
+      <span class="clock-hand clock-second" id="clockSecondHand"></span>
+      <span class="clock-center"></span>
+    </div>
     <div>
       <div class="info-label">Heure locale</div>
-      <div class="info-value" id="timeWidget">--:--:--</div>
+      <div class="info-value station-time-display" id="timeWidget">--:--:--</div>
       <div class="info-sub">Europe / Paris</div>
     </div>
   </div>
@@ -307,6 +400,17 @@ function updateClockAndDate(){
   if(timeEl){
     timeEl.textContent = new Intl.DateTimeFormat('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Europe/Paris'}).format(now);
   }
+  const parisParts = new Intl.DateTimeFormat('fr-FR',{hour:'numeric',minute:'numeric',second:'numeric',hour12:false,timeZone:'Europe/Paris'}).formatToParts(now);
+  const parisTime = Object.fromEntries(parisParts.filter(p=>p.type !== 'literal').map(p=>[p.type,Number(p.value)]));
+  const h = parisTime.hour || 0;
+  const m = parisTime.minute || 0;
+  const sec = parisTime.second || 0;
+  const hourHand = document.getElementById('clockHourHand');
+  const minuteHand = document.getElementById('clockMinuteHand');
+  const secondHand = document.getElementById('clockSecondHand');
+  if(hourHand) hourHand.style.transform = `translateX(-50%) rotate(${((h % 12) * 30) + (m * 0.5)}deg)`;
+  if(minuteHand) minuteHand.style.transform = `translateX(-50%) rotate(${(m * 6) + (sec * 0.1)}deg)`;
+  if(secondHand) secondHand.style.transform = `translateX(-50%) rotate(${sec * 6}deg)`;
   if(dateEl){
     dateEl.textContent = new Intl.DateTimeFormat('fr-FR',{weekday:'long',day:'2-digit',month:'long',timeZone:'Europe/Paris'}).format(now);
   }
