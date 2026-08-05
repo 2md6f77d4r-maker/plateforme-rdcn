@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -202,6 +204,40 @@ body{
   background:var(--mint-2);
 }
 .section-title span{color:#6d7585;font-size:14px}
+/* ===== ANNOUNCEMENT ===== */
+.announcement{
+  margin-bottom:18px;
+  padding:24px 26px;
+  border:1px solid #e4b72f;
+  border-left:7px solid #e0a800;
+  border-radius:var(--radius);
+  background:
+    radial-gradient(circle at 94% 8%,rgba(255,255,255,.64),transparent 28%),
+    linear-gradient(135deg,#fff9d9 0%,#fff1a8 100%);
+  box-shadow:0 16px 36px rgba(154,110,0,.16);
+  color:#3f3100;
+}
+.announcement-heading{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:0 0 16px;
+  color:#725400;
+  font-size:22px;
+}
+.announcement-icon{
+  width:44px;
+  height:44px;
+  flex:0 0 44px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:#ffd84d;
+  box-shadow:0 8px 18px rgba(154,110,0,.18);
+}
+.announcement p{margin:0 0 12px;line-height:1.65;font-size:15px}
+.announcement p:last-child{margin-bottom:0}
+.announcement-signature{padding-top:4px}
 /* ===== GRID ===== */
 .apps-layout{
   display:grid;
@@ -240,6 +276,26 @@ body{
   transition:transform .4s ease;
 }
 .card:hover:after{transform:scaleX(1)}
+.card.programming-card{
+  border-color:#e2b82f;
+  background:
+    radial-gradient(circle at 88% 8%,rgba(255,255,255,.7),transparent 30%),
+    linear-gradient(180deg,#fff8cf 0%,#ffef98 100%);
+  box-shadow:0 14px 30px rgba(154,110,0,.15);
+}
+.card.programming-card:hover{
+  border-color:#d09a00;
+  box-shadow:0 20px 40px rgba(154,110,0,.24);
+}
+.card.programming-card:after{background:linear-gradient(90deg,#d69e00,#ffd84d)}
+.card.programming-card .ico{background:linear-gradient(135deg,#ffe67f,#ffc928);color:#725400}
+.card.programming-card .status{color:#725400}
+.card.programming-card .dot{background:#d69e00}
+.card.programming-card .btn{
+  background:linear-gradient(135deg,#f2bd16,#d89c00);
+  color:#302300;
+  box-shadow:0 10px 22px rgba(154,110,0,.25);
+}
 .ico{font-size:38px;background:linear-gradient(135deg,#dff7f3,#c9f0ea);color:#38A99C;width:52px;height:52px;border-radius:14px;display:grid;place-items:center}
 .card h4{font-size:20px;margin:14px 0 6px;color:#073d34}
 .card p{color:#3d4a55;line-height:1.5;margin:0 0 16px;flex:1;font-size:16px}
@@ -499,6 +555,19 @@ body.dark-mode .bonus-label{background:#7DD9CC;color:#061110}
 body.dark-mode .login-box{background:#101c1a;color:#edf7f5}
 body.dark-mode .login-box input{background:#071211;color:#fff;border-color:#284c45}
 body.dark-mode .news ul li:hover{color:var(--mint-2)}
+body.dark-mode .announcement{
+  background:linear-gradient(135deg,#4a3900,#2f2607);
+  border-color:#c99700;
+  color:#fff3bd;
+}
+body.dark-mode .announcement-heading{color:#ffd95c}
+body.dark-mode .card.programming-card{
+  background:linear-gradient(180deg,#4a3900,#2f2607);
+  border-color:#c99700;
+}
+body.dark-mode .card.programming-card h4{color:#ffe58a}
+body.dark-mode .card.programming-card p,
+body.dark-mode .card.programming-card .meta{color:#f4e7b2}
 </style>
 </head>
 <body>
@@ -556,11 +625,22 @@ body.dark-mode .news ul li:hover{color:var(--mint-2)}
 </header>
 
 <main class="wrap">
+<section class="announcement" aria-labelledby="announcementTitle">
+  <h3 class="announcement-heading" id="announcementTitle"><span class="announcement-icon" aria-hidden="true">📢</span>Information importante — évolution du logiciel de programmation</h3>
+  <p>Bonjour à toutes et à tous,</p>
+  <p>Le logiciel de programmation évolue continuellement et je travaille actuellement à le rendre encore plus performant, mais surtout totalement fiable.</p>
+  <p>Afin d'atteindre cet objectif, la version en ligne montre aujourd'hui certaines limites. C'est pourquoi la programmation de Caen pour les stagiaires sera prochainement disponible exclusivement sous forme d'application de bureau, et non plus en version web. Cette évolution permettra d'améliorer significativement ses performances, sa stabilité et sa fiabilité.</p>
+  <p>L'application sera disponible prochainement au téléchargement depuis SharePoint, tandis que les fichiers de programmation resteront stockés et accessibles comme actuellement.</p>
+  <p>Lors du premier lancement, Windows pourra afficher un message d'avertissement de sécurité, car l'application provient d'une source externe. Il vous suffira alors de valider cet avertissement pour accéder à l'application.</p>
+  <p>Je vous remercie pour votre utilisation de l'outil ainsi que pour tous les retours que vous me transmettez. Ils contribuent directement à son amélioration.</p>
+  <p>Merci à tous.</p>
+  <p class="announcement-signature">Cordialement,<br>Gaëtan</p>
+</section>
 <section class="panel">
 <div class="section-title"><h3>Applications</h3><span>Cliquer sur “Ouvrir” pour lancer l’outil</span></div>
 <div class="apps-layout">
 <div class="grid">
-<article class="card"><div class="ico">🚆</div><h4>Programmation</h4><p>Gestion des journées de service, affectations, astreintes, exports PDF/Excel et contrôles d'anomalies.</p><div class="status"><span class="dot"></span>Disponible</div><div class="meta"><span>V10.26</span><span>Accès restreint</span></div><a class="btn" href="https://2md6f77d4r-maker.github.io/Prog-formation-conduite-RDCN1107/">Ouvrir</a></article>
+<article class="card programming-card"><div class="ico">🚆</div><h4>Programmation</h4><p>Gestion des journées de service, affectations, astreintes, exports PDF/Excel et contrôles d'anomalies.</p><div class="status"><span class="dot"></span>Disponible</div><div class="meta"><span>V10.26</span><span>Accès restreint</span></div><a class="btn" href="https://2md6f77d4r-maker.github.io/Prog-formation-conduite-RDCN1107/">Ouvrir</a></article>
 <article class="card"><div class="ico">📄</div><h4>Bulletins de service</h4><p>Création, contrôle et export des bulletins de service conducteur au format PDF.</p><div class="status"><span class="dot"></span>Disponible</div><div class="meta"><span>V 10_03</span><span>Accès large</span></div><a class="btn" href="https://2md6f77d4r-maker.github.io/Bulletin-de-service-/">Ouvrir</a></article>
 <article class="card"><div class="ico">⏱️</div><h4>Temps de conduite</h4><p>Analyse des PDF de service, extraction agent/matricule et calcul des temps réellement effectués en train.</p><div class="status"><span class="dot"></span>Disponible</div><div class="meta"><span>V01.00</span><span>Accès restreint</span></div><a class="btn" href="https://2md6f77d4r-maker.github.io/controle-des-bulletins-de-service-/">Ouvrir</a></article>
 <article class="card beta-card"><div class="ico">📍</div><h4>Calculateur ferroviaire</h4><p>Calcul de distances ferroviaires et aide à l'estimation des kilomètres parcourus sur le réseau.</p><div class="status beta beta-chip"><span class="dot"></span>VERSION BÊTA</div><div class="meta"><span>BETA</span><span>Accès test</span></div><a class="btn" href="https://2md6f77d4r-maker.github.io/calculateur-de-KM-SFN-/">Ouvrir</a></article>
