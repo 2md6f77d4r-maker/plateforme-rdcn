@@ -429,6 +429,14 @@ body{
   display:flex;align-items:center;justify-content:center;z-index:99999;
   animation:fadeIn .5s ease;
 }
+body.auth-locked > header,
+body.auth-locked > main,
+body.auth-locked > footer,
+body.auth-locked > .theme-toggle{
+  visibility:hidden;
+  pointer-events:none;
+  user-select:none;
+}
 @keyframes fadeIn{from{opacity:0;backdrop-filter:blur(10px)}to{opacity:1;backdrop-filter:blur(0)}}
 .login-box{
   background:#fff;padding:40px;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.3);
@@ -563,7 +571,7 @@ body.dark-mode .card.programming-card .status,
 body.dark-mode .programming-alert{color:#fca5a5}
 </style>
 </head>
-<body>
+<body class="auth-locked">
 <button class="theme-toggle" id="themeToggle" type="button" aria-label="Changer le mode jour nuit" title="Mode jour / nuit">🌙</button>
 
 <div id="loginOverlay">
@@ -571,8 +579,8 @@ body.dark-mode .programming-alert{color:#fca5a5}
     <div class="login-logo">🔒</div>
     <h2>Accès sécurisé</h2>
     <p>Veuillez saisir le mot de passe pour accéder au portail.</p>
-    <input type="password" id="passwordInput" placeholder="Mot de passe" autocomplete="current-password" maxlength="64" onkeydown="if(event.key==='Enter')checkPassword()">
-    <button id="loginButton" type="button" onclick="checkPassword()">Se connecter</button>
+    <input type="password" id="passwordInput" placeholder="Mot de passe" autocomplete="current-password" maxlength="64">
+    <button id="loginButton" type="button">Se connecter</button>
     <div id="loginError" role="status" aria-live="polite"></div>
   </div>
 </div>
@@ -580,7 +588,7 @@ body.dark-mode .programming-alert{color:#fca5a5}
 <header class="header">
 <div class="topline">
 <div class="brand"><div class="logo">OR</div><div><h1>Outils RDCN</h1><p>Plateforme métier RATP Dev Caen Normandie</p></div></div>
-<div class="badge">Version portail 1.4</div>
+<div class="badge">Version portail 1.5</div>
 </div>
 <div class="hero"><h2>     </h2><p>  </p></div>
 <div class="welcome-bar" id="welcomeBar">👋 Bonjour, <span>bienvenue sur le portail RDCN</span></div>
@@ -640,7 +648,7 @@ body.dark-mode .programming-alert{color:#fca5a5}
 <li>🖥️ La programmation des stagiaires est désormais accessible exclusivement depuis la nouvelle application de bureau.</li>
 <li>❌ Fermeture définitive de l'ancienne version en ligne de l'outil de programmation.</li>
 <li>🔴 Ajout d'une alerte rouge sur la carte « Programmation » afin d'identifier immédiatement ce changement.</li>
-<li>🔐 Renforcement de la sécurisation du portail et de la protection du mot de passe.</li>
+<li>🔐 Sécurisation renforcée de l'accès à l'outil.  </li>
 <li>🛡️ Ajout d'une limitation des tentatives de connexion et d'une durée maximale de session.</li>
 </ul></div>
 </section>
@@ -663,154 +671,170 @@ body.dark-mode .programming-alert{color:#fca5a5}
 
 <script>
 // ===== AUTH =====
-const AUTH_KEY = 'rdcn_portail_session_v2';
-const AUTH_ATTEMPTS_KEY = 'rdcn_portail_attempts_v2';
-const AUTH_CONFIG = Object.freeze({
-  salt: 'UG9ydGFpbC1SRENOLTIwMjYtdjI=',
-  verifier: '2yfadsmss90F18MhSe+QRRleie2FLpRpMZTTcYH0rK4=',
-  iterations: 310000,
-  maxAttempts: 5,
-  lockDuration: 15 * 60 * 1000,
-  sessionDuration: 8 * 60 * 60 * 1000
-});
+(() => {
+  'use strict';
 
-function decodeBase64(value) {
-  return Uint8Array.from(atob(value), character => character.charCodeAt(0));
-}
+  const sessionKey = 'rdcn_portail_session_v3';
+  const attemptsKey = 'rdcn_portail_attempts_v3';
+  const policy = Object.freeze({
+    rounds: Object.freeze([310000, 420000]),
+    maxAttempts: 5,
+    lockDuration: 15 * 60 * 1000,
+    sessionDuration: 8 * 60 * 60 * 1000
+  });
+  const material = Object.freeze([
+    Uint8Array.of(80,111,114,116,97,105,108,45,82,68,67,78,45,50,48,50,54,45,118,50),
+    Uint8Array.of(193,94,91,43,227,69,15,99,161,38,61,71,168,70,154,18,192,99,183,112,239,137,178,109,226,132,79,249,213,122,57,112),
+    Uint8Array.of(192,205,48,12,127,214,54,12,4,103,194,166,219,177,199,215,129,71,8,217,61,250,226,144,69,59,15,39,211,169,163,248)
+  ]);
 
-async function createPasswordProof(password) {
-  const key = await crypto.subtle.importKey(
-    'raw',
-    new TextEncoder().encode(password),
-    'PBKDF2',
-    false,
-    ['deriveBits']
-  );
-  const bits = await crypto.subtle.deriveBits({
-    name: 'PBKDF2',
-    hash: 'SHA-256',
-    salt: decodeBase64(AUTH_CONFIG.salt),
-    iterations: AUTH_CONFIG.iterations
-  }, key, 256);
-  return new Uint8Array(bits);
-}
-
-function secureEqual(first, second) {
-  if (first.length !== second.length) return false;
-  let difference = 0;
-  for (let index = 0; index < first.length; index += 1) {
-    difference |= first[index] ^ second[index];
-  }
-  return difference === 0;
-}
-
-function readAttemptState() {
-  try {
-    const state = JSON.parse(localStorage.getItem(AUTH_ATTEMPTS_KEY) || '{}');
-    return {
-      count: Number.isFinite(state.count) ? state.count : 0,
-      lockedUntil: Number.isFinite(state.lockedUntil) ? state.lockedUntil : 0
-    };
-  } catch {
-    localStorage.removeItem(AUTH_ATTEMPTS_KEY);
-    return {count: 0, lockedUntil: 0};
-  }
-}
-
-function writeAttemptState(state) {
-  localStorage.setItem(AUTH_ATTEMPTS_KEY, JSON.stringify(state));
-}
-
-function showLockState() {
-  const state = readAttemptState();
-  const remaining = state.lockedUntil - Date.now();
-  const button = document.getElementById('loginButton');
-  const error = document.getElementById('loginError');
-  if (remaining > 0) {
-    const minutes = Math.ceil(remaining / 60000);
-    if (button) button.disabled = true;
-    if (error) error.textContent = `Trop de tentatives. Réessayez dans ${minutes} min.`;
-    window.setTimeout(showLockState, Math.min(60000, remaining + 50));
-    return true;
-  }
-  if (state.lockedUntil) localStorage.removeItem(AUTH_ATTEMPTS_KEY);
-  if (button) button.disabled = false;
-  if (error && error.textContent.startsWith('Trop de tentatives')) error.textContent = '';
-  return false;
-}
-
-function unlockPortal() {
-  const overlay = document.getElementById('loginOverlay');
-  if (overlay) overlay.style.display = 'none';
-}
-
-async function checkPassword() {
-  const input = document.getElementById('passwordInput');
-  const button = document.getElementById('loginButton');
-  const error = document.getElementById('loginError');
-  if (!input || button?.dataset.busy === 'true' || showLockState()) return;
-
-  let password = input.value;
-  input.value = '';
-  if (!password) {
-    if (error) error.textContent = 'Saisissez le mot de passe.';
-    input.focus();
-    return;
+  async function stretch(source, salt, iterations) {
+    const key = await crypto.subtle.importKey('raw', source, 'PBKDF2', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits({
+      name: 'PBKDF2',
+      hash: 'SHA-256',
+      salt,
+      iterations
+    }, key, 256);
+    return new Uint8Array(bits);
   }
 
-  if (button) {
-    button.dataset.busy = 'true';
-    button.disabled = true;
-    button.textContent = 'Vérification…';
+  async function createProof(password) {
+    const encoded = new TextEncoder().encode(password);
+    const firstStage = await stretch(encoded, material[0], policy.rounds[0]);
+    encoded.fill(0);
+    try {
+      return await stretch(firstStage, material[1], policy.rounds[1]);
+    } finally {
+      firstStage.fill(0);
+    }
   }
-  if (error) error.textContent = '';
 
-  try {
-    const proof = await createPasswordProof(password);
-    const isValid = secureEqual(proof, decodeBase64(AUTH_CONFIG.verifier));
-    if (isValid) {
-      localStorage.removeItem(AUTH_ATTEMPTS_KEY);
-      sessionStorage.setItem(AUTH_KEY, String(Date.now() + AUTH_CONFIG.sessionDuration));
-      unlockPortal();
-      initWelcomeMessage();
+  function secureEqual(first, second) {
+    if (first.length !== second.length) return false;
+    let difference = 0;
+    for (let index = 0; index < first.length; index += 1) difference |= first[index] ^ second[index];
+    return difference === 0;
+  }
+
+  function readAttemptState() {
+    try {
+      const state = JSON.parse(localStorage.getItem(attemptsKey) || '{}');
+      return {
+        count: Number.isFinite(state.count) ? state.count : 0,
+        lockedUntil: Number.isFinite(state.lockedUntil) ? state.lockedUntil : 0
+      };
+    } catch {
+      localStorage.removeItem(attemptsKey);
+      return {count: 0, lockedUntil: 0};
+    }
+  }
+
+  function writeAttemptState(state) {
+    localStorage.setItem(attemptsKey, JSON.stringify(state));
+  }
+
+  function showLockState() {
+    const state = readAttemptState();
+    const remaining = state.lockedUntil - Date.now();
+    const button = document.getElementById('loginButton');
+    const error = document.getElementById('loginError');
+    if (remaining > 0) {
+      const minutes = Math.ceil(remaining / 60000);
+      if (button) button.disabled = true;
+      if (error) error.textContent = `Trop de tentatives. Réessayez dans ${minutes} min.`;
+      window.setTimeout(showLockState, Math.min(60000, remaining + 50));
+      return true;
+    }
+    if (state.lockedUntil) localStorage.removeItem(attemptsKey);
+    if (button) button.disabled = false;
+    if (error && error.textContent.startsWith('Trop de tentatives')) error.textContent = '';
+    return false;
+  }
+
+  function unlockPortal() {
+    document.body.classList.remove('auth-locked');
+    document.body.classList.add('auth-ok');
+    const overlay = document.getElementById('loginOverlay');
+    if (overlay) overlay.style.display = 'none';
+  }
+
+  async function checkPassword() {
+    const input = document.getElementById('passwordInput');
+    const button = document.getElementById('loginButton');
+    const error = document.getElementById('loginError');
+    if (!input || button?.dataset.busy === 'true' || showLockState()) return;
+
+    let password = input.value;
+    input.value = '';
+    if (!password) {
+      if (error) error.textContent = 'Saisissez le mot de passe.';
+      input.focus();
       return;
     }
 
-    const state = readAttemptState();
-    state.count += 1;
-    if (state.count >= AUTH_CONFIG.maxAttempts) {
-      state.lockedUntil = Date.now() + AUTH_CONFIG.lockDuration;
-    }
-    writeAttemptState(state);
-    if (error) {
-      error.textContent = state.lockedUntil
-        ? 'Trop de tentatives. Accès bloqué pendant 15 min.'
-        : 'Mot de passe incorrect.';
-    }
-  } catch {
-    if (error) error.textContent = 'Vérification impossible. Rechargez la page.';
-  } finally {
-    password = '';
     if (button) {
-      button.dataset.busy = 'false';
-      button.textContent = 'Se connecter';
-      button.disabled = false;
+      button.dataset.busy = 'true';
+      button.disabled = true;
+      button.textContent = 'Vérification…';
     }
-    if (!showLockState()) input.focus();
+    if (error) error.textContent = '';
+
+    try {
+      const proof = await createProof(password);
+      const isValid = secureEqual(proof, material[2]);
+      proof.fill(0);
+      if (isValid) {
+        localStorage.removeItem(attemptsKey);
+        sessionStorage.setItem(sessionKey, String(Date.now() + policy.sessionDuration));
+        unlockPortal();
+        initWelcomeMessage();
+        return;
+      }
+
+      const state = readAttemptState();
+      state.count += 1;
+      if (state.count >= policy.maxAttempts) state.lockedUntil = Date.now() + policy.lockDuration;
+      writeAttemptState(state);
+      if (error) {
+        error.textContent = state.lockedUntil
+          ? 'Trop de tentatives. Accès bloqué pendant 15 min.'
+          : 'Mot de passe incorrect.';
+      }
+    } catch {
+      if (error) error.textContent = 'Vérification impossible. Rechargez la page.';
+    } finally {
+      password = '';
+      if (button) {
+        button.dataset.busy = 'false';
+        button.textContent = 'Se connecter';
+        button.disabled = false;
+      }
+      if (!showLockState()) input.focus();
+    }
   }
-}
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('passwordInput');
+    const button = document.getElementById('loginButton');
+    button?.addEventListener('click', checkPassword);
+    input?.addEventListener('keydown', event => {
+      if (event.key === 'Enter') checkPassword();
+    });
+
+    const sessionExpiry = Number(sessionStorage.getItem(sessionKey));
+    if (Number.isFinite(sessionExpiry) && sessionExpiry > Date.now()) {
+      unlockPortal();
+      initWelcomeMessage();
+    } else {
+      sessionStorage.removeItem(sessionKey);
+      input?.focus();
+      showLockState();
+    }
+  });
+})();
 
 document.addEventListener('DOMContentLoaded', function(){
-  const sessionExpiry = Number(sessionStorage.getItem(AUTH_KEY));
-  if (Number.isFinite(sessionExpiry) && sessionExpiry > Date.now()) {
-    unlockPortal();
-    initWelcomeMessage();
-  } else {
-    sessionStorage.removeItem(AUTH_KEY);
-    const input = document.getElementById('passwordInput');
-    if (input) input.focus();
-    showLockState();
-  }
   initThemeToggle();
   updateClockAndDate();
   updateCountdown();
