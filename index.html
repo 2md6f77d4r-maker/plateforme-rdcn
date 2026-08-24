@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -204,40 +203,6 @@ body{
   background:var(--mint-2);
 }
 .section-title span{color:#6d7585;font-size:14px}
-/* ===== ANNOUNCEMENT ===== */
-.announcement{
-  margin-bottom:18px;
-  padding:24px 26px;
-  border:1px solid #e4b72f;
-  border-left:7px solid #e0a800;
-  border-radius:var(--radius);
-  background:
-    radial-gradient(circle at 94% 8%,rgba(255,255,255,.64),transparent 28%),
-    linear-gradient(135deg,#fff9d9 0%,#fff1a8 100%);
-  box-shadow:0 16px 36px rgba(154,110,0,.16);
-  color:#3f3100;
-}
-.announcement-heading{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin:0 0 16px;
-  color:#725400;
-  font-size:22px;
-}
-.announcement-icon{
-  width:44px;
-  height:44px;
-  flex:0 0 44px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  background:#ffd84d;
-  box-shadow:0 8px 18px rgba(154,110,0,.18);
-}
-.announcement p{margin:0 0 12px;line-height:1.65;font-size:15px}
-.announcement p:last-child{margin-bottom:0}
-.announcement-signature{padding-top:4px}
 /* ===== GRID ===== */
 .apps-layout{
   display:grid;
@@ -277,24 +242,55 @@ body{
 }
 .card:hover:after{transform:scaleX(1)}
 .card.programming-card{
-  border-color:#e2b82f;
+  border:2px solid #dc2626;
   background:
-    radial-gradient(circle at 88% 8%,rgba(255,255,255,.7),transparent 30%),
-    linear-gradient(180deg,#fff8cf 0%,#ffef98 100%);
-  box-shadow:0 14px 30px rgba(154,110,0,.15);
+    radial-gradient(circle at 88% 8%,rgba(255,255,255,.85),transparent 30%),
+    linear-gradient(180deg,#fff5f5 0%,#ffdada 100%);
+  box-shadow:0 14px 30px rgba(220,38,38,.18);
 }
 .card.programming-card:hover{
-  border-color:#d09a00;
-  box-shadow:0 20px 40px rgba(154,110,0,.24);
+  border-color:#b91c1c;
+  box-shadow:0 20px 40px rgba(220,38,38,.28);
 }
-.card.programming-card:after{background:linear-gradient(90deg,#d69e00,#ffd84d)}
-.card.programming-card .ico{background:linear-gradient(135deg,#ffe67f,#ffc928);color:#725400}
-.card.programming-card .status{color:#725400}
-.card.programming-card .dot{background:#d69e00}
+.card.programming-card:after{background:linear-gradient(90deg,#991b1b,#ef4444)}
+.card.programming-card .ico{background:linear-gradient(135deg,#fee2e2,#fecaca);color:#b91c1c}
+.card.programming-card h4{color:#991b1b}
+.card.programming-card p,
+.card.programming-card .meta{color:#7f1d1d}
+.card.programming-card .status{color:#b91c1c}
+.card.programming-card .dot{background:#dc2626}
 .card.programming-card .btn{
-  background:linear-gradient(135deg,#f2bd16,#d89c00);
-  color:#302300;
-  box-shadow:0 10px 22px rgba(154,110,0,.25);
+  background:#e5e7eb;
+  color:#7a838f;
+  box-shadow:none;
+  cursor:not-allowed;
+  pointer-events:none;
+}
+.programming-alert{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:7px;
+  margin:-4px 0 14px;
+  color:#b91c1c;
+  font-size:14px;
+  font-weight:950;
+  line-height:1.2;
+  text-align:center;
+  text-transform:uppercase;
+  letter-spacing:.035em;
+}
+.programming-cross{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#fff;
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  box-shadow:0 9px 20px rgba(185,28,28,.3);
+  font-size:30px;
+  line-height:1;
 }
 .ico{font-size:38px;background:linear-gradient(135deg,#dff7f3,#c9f0ea);color:#38A99C;width:52px;height:52px;border-radius:14px;display:grid;place-items:center}
 .card h4{font-size:20px;margin:14px 0 6px;color:#073d34}
@@ -451,6 +447,7 @@ body{
   transition:transform var(--transition),box-shadow var(--transition);
 }
 .login-box button:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,135,90,.25)}
+.login-box button:disabled{opacity:.62;cursor:not-allowed;transform:none;box-shadow:none}
 #loginError{color:#c00;margin-top:12px;font-weight:bold;min-height:20px}
 .login-logo{font-size:42px;display:block;margin-bottom:8px}
 /* ===== THEME TOGGLE ===== */
@@ -555,19 +552,15 @@ body.dark-mode .bonus-label{background:#7DD9CC;color:#061110}
 body.dark-mode .login-box{background:#101c1a;color:#edf7f5}
 body.dark-mode .login-box input{background:#071211;color:#fff;border-color:#284c45}
 body.dark-mode .news ul li:hover{color:var(--mint-2)}
-body.dark-mode .announcement{
-  background:linear-gradient(135deg,#4a3900,#2f2607);
-  border-color:#c99700;
-  color:#fff3bd;
-}
-body.dark-mode .announcement-heading{color:#ffd95c}
 body.dark-mode .card.programming-card{
-  background:linear-gradient(180deg,#4a3900,#2f2607);
-  border-color:#c99700;
+  background:linear-gradient(180deg,#451515,#260b0b);
+  border-color:#ef4444;
 }
-body.dark-mode .card.programming-card h4{color:#ffe58a}
+body.dark-mode .card.programming-card h4{color:#fecaca}
 body.dark-mode .card.programming-card p,
-body.dark-mode .card.programming-card .meta{color:#f4e7b2}
+body.dark-mode .card.programming-card .meta{color:#fee2e2}
+body.dark-mode .card.programming-card .status,
+body.dark-mode .programming-alert{color:#fca5a5}
 </style>
 </head>
 <body>
@@ -578,16 +571,16 @@ body.dark-mode .card.programming-card .meta{color:#f4e7b2}
     <div class="login-logo">🔒</div>
     <h2>Accès sécurisé</h2>
     <p>Veuillez saisir le mot de passe pour accéder au portail.</p>
-    <input type="password" id="passwordInput" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')checkPassword()">
-    <button onclick="checkPassword()">Se connecter</button>
-    <div id="loginError"></div>
+    <input type="password" id="passwordInput" placeholder="Mot de passe" autocomplete="current-password" maxlength="64" onkeydown="if(event.key==='Enter')checkPassword()">
+    <button id="loginButton" type="button" onclick="checkPassword()">Se connecter</button>
+    <div id="loginError" role="status" aria-live="polite"></div>
   </div>
 </div>
 
 <header class="header">
 <div class="topline">
 <div class="brand"><div class="logo">OR</div><div><h1>Outils RDCN</h1><p>Plateforme métier RATP Dev Caen Normandie</p></div></div>
-<div class="badge">Version portail 1.3</div>
+<div class="badge">Version portail 1.4</div>
 </div>
 <div class="hero"><h2>     </h2><p>  </p></div>
 <div class="welcome-bar" id="welcomeBar">👋 Bonjour, <span>bienvenue sur le portail RDCN</span></div>
@@ -625,22 +618,11 @@ body.dark-mode .card.programming-card .meta{color:#f4e7b2}
 </header>
 
 <main class="wrap">
-<section class="announcement" aria-labelledby="announcementTitle">
-  <h3 class="announcement-heading" id="announcementTitle"><span class="announcement-icon" aria-hidden="true">📢</span>Information importante — évolution du logiciel de programmation</h3>
-  <p>Bonjour à toutes et à tous,</p>
-  <p>Le logiciel de programmation évolue continuellement et je travaille actuellement à le rendre encore plus performant, mais surtout totalement fiable.</p>
-  <p>Afin d'atteindre cet objectif, la version en ligne montre aujourd'hui certaines limites. C'est pourquoi la programmation de Caen pour les stagiaires sera prochainement disponible exclusivement sous forme d'application de bureau, et non plus en version web. Cette évolution permettra d'améliorer significativement ses performances, sa stabilité et sa fiabilité.</p>
-  <p>L'application sera disponible prochainement au téléchargement depuis SharePoint, tandis que les fichiers de programmation resteront stockés et accessibles comme actuellement.</p>
-  <p>Lors du premier lancement, Windows pourra afficher un message d'avertissement de sécurité, car l'application provient d'une source externe. Il vous suffira alors de valider cet avertissement pour accéder à l'application.</p>
-  <p>Je vous remercie pour votre utilisation de l'outil ainsi que pour tous les retours que vous me transmettez. Ils contribuent directement à son amélioration.</p>
-  <p>Merci à tous.  L ACCES SERA COUPE AU LUNDI 10 AOUT  </p>
-  <p class="announcement-signature">Cordialement,<br>Gaëtan</p>
-</section>
 <section class="panel">
 <div class="section-title"><h3>Applications</h3><span>Cliquer sur “Ouvrir” pour lancer l’outil</span></div>
 <div class="apps-layout">
 <div class="grid">
-<article class="card programming-card"><div class="ico">🚆</div><h4>Programmation</h4><p>Gestion des journées de service, affectations, astreintes, exports PDF/Excel et contrôles d'anomalies.</p><div class="status"><span class="dot"></span>Disponible</div><div class="meta"><span>V10.26</span><span>Accès restreint</span></div><a class="btn" href="https://2md6f77d4r-maker.github.io/Prog-formation-conduite-RDCN1107/">Ouvrir</a></article>
+<article class="card programming-card" aria-label="La programmation a changé"><div class="programming-alert"><span class="programming-cross" aria-hidden="true">✕</span><span>La programmation a changé</span></div><div class="ico">🚆</div><h4>Programmation</h4><p>La version en ligne est fermée. La programmation est désormais accessible depuis la nouvelle application de bureau.</p><div class="status unavailable"><span class="dot"></span>Version en ligne fermée</div><div class="meta"><span>Nouvelle application</span><span>Accès bureau</span></div><span class="btn disabled" aria-disabled="true">Accès fermé</span></article>
 <article class="card"><div class="ico">📄</div><h4>Bulletins de service</h4><p>Création, contrôle et export des bulletins de service conducteur au format PDF.</p><div class="status"><span class="dot"></span>Disponible</div><div class="meta"><span>V 10_03</span><span>Accès large</span></div><a class="btn" href="https://2md6f77d4r-maker.github.io/Bulletin-de-service-/">Ouvrir</a></article>
 <article class="card"><div class="ico">⏱️</div><h4>Temps de conduite</h4><p>Analyse des PDF de service, extraction agent/matricule et calcul des temps réellement effectués en train.</p><div class="status"><span class="dot"></span>Disponible</div><div class="meta"><span>V01.00</span><span>Accès restreint</span></div><a class="btn" href="https://2md6f77d4r-maker.github.io/controle-des-bulletins-de-service-/">Ouvrir</a></article>
 <article class="card beta-card"><div class="ico">📍</div><h4>Calculateur ferroviaire</h4><p>Calcul de distances ferroviaires et aide à l'estimation des kilomètres parcourus sur le réseau.</p><div class="status beta beta-chip"><span class="dot"></span>VERSION BÊTA</div><div class="meta"><span>BETA</span><span>Accès test</span></div><a class="btn" href="https://2md6f77d4r-maker.github.io/calculateur-de-KM-SFN-/">Ouvrir</a></article>
@@ -653,19 +635,13 @@ body.dark-mode .card.programming-card .meta{color:#f4e7b2}
 </section>
 
 <section class="two">
-<div class="news"><div class="section-title"><h3>Dernières nouveautés</h3><span> 📄 </span></div>
+<div class="news"><div class="section-title"><h3>Dernières nouveautés</h3><span>Mise à jour du 24 août 2026</span></div>
 <ul>
-<li>🚀 Nouvelle interface d'accueil enrichie avec des widgets modernes et un design plus dynamique.</li>
-<li>🕒 Ajout d'une horloge en temps réel affichant l'heure actuelle.</li>
-<li>📅 Ajout de la date du jour mise à jour automatiquement.</li>
-<li>🌤️ Intégration d'un widget météo affichant les conditions actuelles à Caen.</li>
-<li>🎁 Ajout en bonus de l'aide à la génération et au calcul des notes de frais.</li>
-<li>⏳ Ajout d'un compte à rebours jusqu'au <strong>11 juillet 2027</strong>, date du lancement de l'exploitation des trains TER de l'Étoile de Caen.</li>
-<li>✨ Amélioration de l'expérience utilisateur avec un affichage plus clair et des informations essentielles accessibles dès l'ouverture du portail.</li>
-<li>✅ Les outils existants restent entièrement compatibles et aucune fonctionnalité n'a été supprimée.</li>
-<li>👋 Message de bienvenue personnalisé selon l'heure de connexion.</li>
-<li>🎨 Animations fluides au survol des cartes pour une navigation plus agréable.</li>
-<li>📱 Meilleur contraste et lisibilité renforcée sur tous les écrans.</li>
+<li>🖥️ La programmation des stagiaires est désormais accessible exclusivement depuis la nouvelle application de bureau.</li>
+<li>❌ Fermeture définitive de l'ancienne version en ligne de l'outil de programmation.</li>
+<li>🔴 Ajout d'une alerte rouge sur la carte « Programmation » afin d'identifier immédiatement ce changement.</li>
+<li>🔐 Renforcement de la sécurisation du portail et de la protection du mot de passe.</li>
+<li>🛡️ Ajout d'une limitation des tentatives de connexion et d'une durée maximale de session.</li>
 </ul></div>
 </section>
 
@@ -687,33 +663,153 @@ body.dark-mode .card.programming-card .meta{color:#f4e7b2}
 
 <script>
 // ===== AUTH =====
-const AUTH_KEY = 'rdcn_portail_session_ok';
+const AUTH_KEY = 'rdcn_portail_session_v2';
+const AUTH_ATTEMPTS_KEY = 'rdcn_portail_attempts_v2';
+const AUTH_CONFIG = Object.freeze({
+  salt: 'UG9ydGFpbC1SRENOLTIwMjYtdjI=',
+  verifier: '2yfadsmss90F18MhSe+QRRleie2FLpRpMZTTcYH0rK4=',
+  iterations: 310000,
+  maxAttempts: 5,
+  lockDuration: 15 * 60 * 1000,
+  sessionDuration: 8 * 60 * 60 * 1000
+});
+
+function decodeBase64(value) {
+  return Uint8Array.from(atob(value), character => character.charCodeAt(0));
+}
+
+async function createPasswordProof(password) {
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(password),
+    'PBKDF2',
+    false,
+    ['deriveBits']
+  );
+  const bits = await crypto.subtle.deriveBits({
+    name: 'PBKDF2',
+    hash: 'SHA-256',
+    salt: decodeBase64(AUTH_CONFIG.salt),
+    iterations: AUTH_CONFIG.iterations
+  }, key, 256);
+  return new Uint8Array(bits);
+}
+
+function secureEqual(first, second) {
+  if (first.length !== second.length) return false;
+  let difference = 0;
+  for (let index = 0; index < first.length; index += 1) {
+    difference |= first[index] ^ second[index];
+  }
+  return difference === 0;
+}
+
+function readAttemptState() {
+  try {
+    const state = JSON.parse(localStorage.getItem(AUTH_ATTEMPTS_KEY) || '{}');
+    return {
+      count: Number.isFinite(state.count) ? state.count : 0,
+      lockedUntil: Number.isFinite(state.lockedUntil) ? state.lockedUntil : 0
+    };
+  } catch {
+    localStorage.removeItem(AUTH_ATTEMPTS_KEY);
+    return {count: 0, lockedUntil: 0};
+  }
+}
+
+function writeAttemptState(state) {
+  localStorage.setItem(AUTH_ATTEMPTS_KEY, JSON.stringify(state));
+}
+
+function showLockState() {
+  const state = readAttemptState();
+  const remaining = state.lockedUntil - Date.now();
+  const button = document.getElementById('loginButton');
+  const error = document.getElementById('loginError');
+  if (remaining > 0) {
+    const minutes = Math.ceil(remaining / 60000);
+    if (button) button.disabled = true;
+    if (error) error.textContent = `Trop de tentatives. Réessayez dans ${minutes} min.`;
+    window.setTimeout(showLockState, Math.min(60000, remaining + 50));
+    return true;
+  }
+  if (state.lockedUntil) localStorage.removeItem(AUTH_ATTEMPTS_KEY);
+  if (button) button.disabled = false;
+  if (error && error.textContent.startsWith('Trop de tentatives')) error.textContent = '';
+  return false;
+}
 
 function unlockPortal() {
   const overlay = document.getElementById('loginOverlay');
   if (overlay) overlay.style.display = 'none';
 }
 
-function checkPassword(){
- const p=document.getElementById('passwordInput').value;
- if(p==='RDCN_VENUS'){
-   sessionStorage.setItem(AUTH_KEY, 'true');
-   unlockPortal();
-   initWelcomeMessage();
- }else{
-   document.getElementById('loginError').textContent='Mot de passe incorrect';
-   document.getElementById('passwordInput').value='';
-   document.getElementById('passwordInput').focus();
- }
+async function checkPassword() {
+  const input = document.getElementById('passwordInput');
+  const button = document.getElementById('loginButton');
+  const error = document.getElementById('loginError');
+  if (!input || button?.dataset.busy === 'true' || showLockState()) return;
+
+  let password = input.value;
+  input.value = '';
+  if (!password) {
+    if (error) error.textContent = 'Saisissez le mot de passe.';
+    input.focus();
+    return;
+  }
+
+  if (button) {
+    button.dataset.busy = 'true';
+    button.disabled = true;
+    button.textContent = 'Vérification…';
+  }
+  if (error) error.textContent = '';
+
+  try {
+    const proof = await createPasswordProof(password);
+    const isValid = secureEqual(proof, decodeBase64(AUTH_CONFIG.verifier));
+    if (isValid) {
+      localStorage.removeItem(AUTH_ATTEMPTS_KEY);
+      sessionStorage.setItem(AUTH_KEY, String(Date.now() + AUTH_CONFIG.sessionDuration));
+      unlockPortal();
+      initWelcomeMessage();
+      return;
+    }
+
+    const state = readAttemptState();
+    state.count += 1;
+    if (state.count >= AUTH_CONFIG.maxAttempts) {
+      state.lockedUntil = Date.now() + AUTH_CONFIG.lockDuration;
+    }
+    writeAttemptState(state);
+    if (error) {
+      error.textContent = state.lockedUntil
+        ? 'Trop de tentatives. Accès bloqué pendant 15 min.'
+        : 'Mot de passe incorrect.';
+    }
+  } catch {
+    if (error) error.textContent = 'Vérification impossible. Rechargez la page.';
+  } finally {
+    password = '';
+    if (button) {
+      button.dataset.busy = 'false';
+      button.textContent = 'Se connecter';
+      button.disabled = false;
+    }
+    if (!showLockState()) input.focus();
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function(){
-  if (sessionStorage.getItem(AUTH_KEY) === 'true') {
+  const sessionExpiry = Number(sessionStorage.getItem(AUTH_KEY));
+  if (Number.isFinite(sessionExpiry) && sessionExpiry > Date.now()) {
     unlockPortal();
     initWelcomeMessage();
   } else {
+    sessionStorage.removeItem(AUTH_KEY);
     const input = document.getElementById('passwordInput');
     if (input) input.focus();
+    showLockState();
   }
   initThemeToggle();
   updateClockAndDate();
